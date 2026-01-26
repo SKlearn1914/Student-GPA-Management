@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Student Result Management</title>
+    <meta name="description"
+        content="Student Result Management System - add students, enter marks, auto-grade, GPA, generate & download result sheets." />
+        <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="printArea">
+        <div class="wrap">
+            <header>
+                <div>
+                    <h1>Student Result Management</h1>
+                    <p class="lead">Add students → Enter marks → Automatic grade & GPA → Print / Download result</p>
+                </div>
+                <div class="flex">
+                    <button id="exportAll" class="btn ghost small">Export JSON</button>
+                    <button id="importBtn" class="btn ghost small">Import JSON</button>
+                    <input id="importFile" type="file" accept="application/json" style="display:none" />
+                    <button id="clearAll" class="btn ghost small">Clear All</button>
+                </div>
+            </header>
+
+            <div class="grid">
+                <aside class="card sidebar">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                        <strong>Students</strong>
+                        <div>
+                            <button id="newStudentBtn" class="btn small">＋ New</button>
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <input id="filterInput" type="text" placeholder="Search by name or roll" />
+                    </div>
+
+                    <div class="student-list" id="studentList"></div>
+                </aside>
+
+                <main class="card main">
+                    <div class="toolbar">
+                        <div>
+                            <strong id="selectedTitle">Select a student to view / edit</strong>
+                            <div class="muted" id="selectedMeta"></div>
+                        </div>
+                        <div class="flex">
+                            <button id="printBtn" class="btn small">Print / Save PDF</button>
+                            <button id="deleteStudent" class="btn ghost small">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="results" id="mainArea">
+                        <div class="muted">No student selected.</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="modal" aria-hidden="true">
+            <div class="modal-card">
+                <div id="modalContent"></div>
+                <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
+                    <button id="modalCancel" class="btn ghost small">Cancel</button>
+                    <button id="modalSave" class="btn small">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js.js"></script>
+</html>
