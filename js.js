@@ -25,14 +25,15 @@ const SECTIONS = ['A', 'B', 'C', 'D'];
 const SEMESTERS = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
 const PRESET_CS_SUBJECTS = [
-    { name: 'Object Oriented Programming', max: 100, credit: 3 },
-    { name: 'Object Oriented Programming Lab', max: 100, credit: 1 },
-    { name: 'Digital Logic Design', max: 100, credit: 2 },
-    { name: 'Digital Logic Design Lab', max: 100, credit: 1 },
-    { name: 'Islamic Studies/Humanities', max: 100, credit: 2 },
-    { name: 'Pakistan Studies', max: 100, credit: 2 },
-    { name: 'Statistics', max: 100, credit: 3 },
-    { name: 'Presentation and Communication Skills', max: 100, credit: 3 }
+    { name: 'Discrete Mathematical Structure', max: 100, credit: 3 },
+    { name: 'Data Structures and Algorithms', max: 100, credit: 3 },
+    { name: 'LAB: Data Structures and Algorithms', max: 100, credit: 1 },
+    { name: 'Multivariate Calculus', max: 100, credit: 3 },
+    { name: 'Management Principles', max: 100, credit: 2 },
+    { name: 'Computer Organization and Assembly Language', max: 100, credit: 2 },
+    { name: 'LAB: Computer Organization and Assembly Language', max: 100, credit: 1 },
+    { name: 'HCI and Computer Graphics', max: 100, credit: 2 },
+    { name: 'LAB: HCI and Computer Graphics', max: 100, credit: 1 }
 ];
 
 // Utils
