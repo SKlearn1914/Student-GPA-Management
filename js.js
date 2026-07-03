@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'srms_students_v2';
+    const STORAGE_KEY = 'srms_students_v2';
 let students = [], selectedId = null;
 
 // DOM Elements
@@ -238,40 +238,114 @@ function openStudentModal(s) {
 // Marks Modal
 function buildSubjectsHtml(subs) {
     return subs.map((sub, i) => `
-    <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px" data-i="${i}">
-        <input id="sub_${i}_name" type="text" value="${escapeHtml(sub.name)}" style="flex:2" />
-        <input id="sub_${i}_marks" type="number" min="0" value="${sub.marks || 0}" style="width:80px" />
-        <input id="sub_${i}_max" type="number" min="1" value="${sub.max || 100}" style="width:80px" />
-        <input id="sub_${i}_credit" type="number" min="0" value="${sub.credit || 3}" style="width:60px" placeholder="Credit"/>
-    </div>`).join('');
-}
+    <div class="subject-row" style="display:flex;gap:8px;align-items:center;margin-bottom:8px" data-i="${i}">
+        <input id="sub_${i}_name" type="text" value="${escapeHtml(sub.name)}" style="flex:2" placeholder="Subject Name" />
 
+        <input id="sub_${i}_marks" type="number" min="0"
+               value="${sub.marks || 0}" style="width:80px" placeholder="Marks"/>
+
+        <input id="sub_${i}_max" type="number" min="1"
+               value="${sub.max || 100}" style="width:80px" placeholder="Max"/>
+
+        <input id="sub_${i}_credit" type="number" min="0"
+               value="${sub.credit || 3}" style="width:70px" placeholder="Credit"/>
+
+        <button class="btn ghost small removeSubjectBtn" type="button">
+            ❌
+        </button>
+    </div>
+    `).join('');
+}
 function openMarksModal(s) {
-    if (!s.subjects) s.subjects = PRESET_CS_SUBJECTS.map(x => ({ ...x, marks: 0 }));
-    modalContent.innerHTML = `<div id="marksList">${buildSubjectsHtml(s.subjects)}</div>`;
-    modal.style.display = 'flex';
+
+    if (!s.subjects || s.subjects.length === 0)
+        s.subjects = PRESET_CS_SUBJECTS.map(x => ({ ...x, marks: 0 }));
+
+    function renderSubjects() {
+
+        modalContent.innerHTML = `
+            <div id="marksList">
+                ${buildSubjectsHtml(s.subjects)}
+            </div>
+
+            <div style="margin-top:15px">
+                <button id="addSubjectBtn" class="btn small" type="button">
+                    + Add Subject
+                </button>
+            </div>
+        `;
+
+        // Add Subject
+        document.getElementById("addSubjectBtn").onclick = () => {
+
+            s.subjects.push({
+                name: "",
+                marks: 0,
+                max: 100,
+                credit: 3
+            });
+
+            renderSubjects();
+        };
+
+        // Remove Subject
+        document.querySelectorAll(".removeSubjectBtn").forEach((btn, index) => {
+
+            btn.onclick = () => {
+
+                if (confirm("Remove this subject?")) {
+
+                    s.subjects.splice(index, 1);
+
+                    renderSubjects();
+                }
+            };
+        });
+    }
+
+    renderSubjects();
+
+    modal.style.display = "flex";
+
     modalSave.onclick = () => {
-        const container = modalContent.querySelector('#marksList');
-        const rows = container.children;
+
+        const rows = document.querySelectorAll(".subject-row");
+
         const newSubs = [];
-        for (let i = 0; i < rows.length; i++) {
-            const nameEl = rows[i].querySelector(`#sub_${i}_name`);
-            const marksEl = rows[i].querySelector(`#sub_${i}_marks`);
-            const maxEl = rows[i].querySelector(`#sub_${i}_max`);
-            const creditEl = rows[i].querySelector(`#sub_${i}_credit`);
-            if (!nameEl) continue;
-            const nm = nameEl.value.trim() || `Subject ${i + 1}`;
-            const mk = Math.max(0, Number(marksEl.value) || 0);
-            const M = Math.max(1, Number(maxEl.value) || 100);
-            const cr = Math.max(0, Number(creditEl.value) || 3);
-            newSubs.push({ name: nm, marks: mk, max: M, credit: cr });
-        }
+
+        rows.forEach((row, i) => {
+
+            newSubs.push({
+
+                name:
+                    row.querySelector(`#sub_${i}_name`).value.trim() ||
+                    `Subject ${i + 1}`,
+
+                marks:
+                    Number(row.querySelector(`#sub_${i}_marks`).value) || 0,
+
+                max:
+                    Number(row.querySelector(`#sub_${i}_max`).value) || 100,
+
+                credit:
+                    Number(row.querySelector(`#sub_${i}_credit`).value) || 3
+            });
+
+        });
+
         s.subjects = newSubs;
+
         s.updated = Date.now();
-        saveAll(); renderMain(); hideModal(); renderList();
+
+        saveAll();
+
+        renderMain();
+
+        renderList();
+
+        hideModal();
     };
 }
-
 // Modal Hide
 function hideModal() { modal.style.display = 'none'; }
 
